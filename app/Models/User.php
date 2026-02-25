@@ -21,16 +21,18 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id'
-    ];
+        'role_id'];
 
+public function colocations()
+{
+    return $this->belongsToMany(Colocation::class, 'colocation_user')
+        ->withPivot('role')
+        ->withTimestamps();
+}
     public function role(){
         return $this->belongsTo(Role::class);
     }
 
-    public function memberships(){
-        return $this->hasMany(Membership::class);
-    }
 
     public function payerExpense(){
         return $this->hasMany(Expense::class, 'payer_id');

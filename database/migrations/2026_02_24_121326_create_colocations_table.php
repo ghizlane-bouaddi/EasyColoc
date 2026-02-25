@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('colocations', function (Blueprint $table) {
         $table->id();
         $table->string('name');
-        $table->string('status');
-        $table->dateTime('date');
+        $table->enum('status', ['active', 'cancelled'])->default('active');
+        $table->foreignId('owner_id')->references('id')->on('users')->onDelete('cascade');
         $table->timestamps();
 });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(table: 'colocations');
+        Schema::dropIfExists('colocations');
 
     }
 };
