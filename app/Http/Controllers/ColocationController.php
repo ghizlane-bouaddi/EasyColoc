@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Colocation;
 
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
+
+
+
 class ColocationController extends Controller
 {
     /**
@@ -14,7 +16,7 @@ class ColocationController extends Controller
      */
     public function index()
     {
-        //
+       
     }
 
     /**
@@ -22,7 +24,6 @@ class ColocationController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -30,19 +31,6 @@ class ColocationController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-        'name' => 'required|string|max:255',
-    ]);
-
-    $coloc = Colocation::create([
-        'name' => $request->name,
-        'owner_id' => auth()->id(), // L-user lli m-connecti howa l-owner
-        'status' => 'active'
-    ]);
-
-    $coloc->users()->attach(auth()->id(), ['role' => 'owner']);
-
-    return redirect()->route('dashboard')->with('success', 'Colocation créée !');
     }
 
     /**
