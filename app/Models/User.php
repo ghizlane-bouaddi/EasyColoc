@@ -29,6 +29,8 @@ public function colocations()
         ->withPivot('role')
         ->withTimestamps();
 }
+
+ 
     public function role(){
         return $this->belongsTo(Role::class);
     }
@@ -38,6 +40,10 @@ public function colocations()
         return $this->hasMany(Expense::class, 'payer_id');
     }
 
+    public function ownedColocation()
+    {
+        return $this->hasOne(Colocation::class, 'owner_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
