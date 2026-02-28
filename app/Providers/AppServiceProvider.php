@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Models\Colocation;
+use App\Policies\ColocationPolicy;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+
+      protected $policies = [Colocation::class => ColocationPolicy::class,];
     /**
      * Register any application services.
      */
@@ -14,6 +18,9 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+
+
+
 
     /**
      * Bootstrap any application services.

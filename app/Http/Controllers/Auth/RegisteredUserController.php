@@ -50,6 +50,14 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+    if (session()->has('invitation_token')) {
+
+    $token = session('invitation_token');
+
+    session()->forget('invitation_token');
+
+    return redirect()->route('invitations.accept', $token);
+}
         return redirect(route('dashboard', absolute: false));
     }
 }

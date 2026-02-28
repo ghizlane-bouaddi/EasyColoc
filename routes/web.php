@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ColocationController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\verificationInvitationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
@@ -9,13 +11,13 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
-    // Ila kan role_id = 2 rah Admin
+
 
     if (auth()->user()->role_id == 2) {
-        return view('adminDashboard'); // l-file d l-admin li qaddina
+        return view('adminDashboard'); 
     }
 
-    // Ila kan role_id = 1 (wala ay haja khra) rah User 3adi
+
     return view('dashboard');
 })->name('dashboard');
 
@@ -30,6 +32,14 @@ Route::middleware('auth')->group(function () {
 Route::get('/colocations', [ColocationController::class, 'index'])->name('colocations.index');
 Route::resource('colocations', ColocationController::class)->middleware('auth');
 
+
+
+
+
+
+Route::post('/colocations/{colocation}/invite', [InvitationController::class, 'sendInvitation'])->name('colocations.send-invite');
+
+Route::get('/invitations/accept/{token}', [InvitationController::class, 'acceptInvitation']) ->name('invitations.accept');
 
 require __DIR__.'/auth.php';
 

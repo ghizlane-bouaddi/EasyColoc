@@ -12,19 +12,18 @@ use Illuminate\Http\Request;
 
 class ColocationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $user = auth()->user();
-        $colocation = $user->ownedColocation;
 
+ public function index()
+{
+    $user = auth()->user();
 
-        $colocation = Colocation::all();
-        return view('indexColoction', compact('colocation'));
-    }
+    $owned = Colocation::where('owner_id', $user->id)->get();
+    $member = $user->colocations;
 
+    $colocation = $owned->merge($member);
+    // dd($colocation);
+    return view('indexColoction', compact('colocation'));
+}
     /**
      * Show the form for creating a new resource.
      */
@@ -45,7 +44,7 @@ class ColocationController extends Controller
 
     $colocation = Colocation::create([
         'name' => $request->name,
-        'status' => 'active', // default
+        'status' => 'active',
         'owner_id' => auth()->id(),
     ]);
 
@@ -56,11 +55,18 @@ class ColocationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
-    {
-        $coloc = Colocation::FiNdOrFail($id);
-        return view('showColoction', compact('coloc'));
+   public function show($id)
+{
+    $colocation = Colocation::with(['members','categories','expenses','owner','expenses.payer'])->findOrFail($id);
+
+    $user = auth()->user();
+
+    if ($user->role !== 'admin' && $colocation->owner_id !== $user->id && !$colocation->members->contains($user->id)) {
+        abort(403);
     }
+
+    return view('showColoction', compact('colocation'));
+}
 
     /**
      * Show the form for editing the specified resource.

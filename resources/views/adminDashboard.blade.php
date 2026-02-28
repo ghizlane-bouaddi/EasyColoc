@@ -8,7 +8,7 @@
 
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex">
 
-<!-- Sidebar -->
+
 <aside class="w-64 bg-white shadow-lg">
     <div class="p-6 text-2xl font-bold text-blue-600">
         🏠 EasyColoc
@@ -27,13 +27,36 @@
         <a href="#" class="block px-6 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600">
             Profile
         </a>
+                <div class="pt-4 pb-1 border-t border-gray-200">
+            <div class="px-4">
+                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+            </div>
+
+            <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('profile.edit')">
+                    {{ __('Profile') }}
+                </x-responsive-nav-link>
+
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <x-responsive-nav-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-responsive-nav-link>
+                </form>
+            </div>
+        </div>
+    </div>
     </nav>
 </aside>
 
-<!-- Main Content -->
 <main class="flex-1 p-10">
 
-    <!-- Header -->
+
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-2xl font-bold text-gray-700">
             Tableau de bord
@@ -44,7 +67,7 @@
         </a>
     </div>
 
-    <!-- Stats Cards -->
+
     <div class="grid grid-cols-2 gap-6 mb-8">
 
         <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
@@ -73,10 +96,9 @@
 
     </div>
 
-    <!-- Bottom Section -->
     <div class="grid grid-cols-3 gap-6">
 
-        <!-- Dépenses récentes -->
+
         <div class="col-span-2 bg-white p-6 rounded-2xl shadow">
             <div class="flex justify-between mb-4">
                 <h2 class="font-semibold text-gray-700">Dépenses récentes</h2>
@@ -88,7 +110,6 @@
             </div>
         </div>
 
-        <!-- Membres -->
         <div class="bg-gradient-to-br from-indigo-500 to-blue-600 text-white p-6 rounded-2xl shadow">
             <h2 class="font-semibold mb-4">Membres de la coloc</h2>
 
